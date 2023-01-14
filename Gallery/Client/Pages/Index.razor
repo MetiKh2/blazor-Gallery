@@ -1,0 +1,22 @@
+﻿@page "/"
+@using Gallery.Client.Models;
+@inject HttpClient Http
+<PageTitle>Gallery</PageTitle>
+<div class='image-grid'>
+   @if (Images!=null)
+    {
+        @foreach (var image in Images)
+        {
+            <img src="@image" />
+        }
+    }
+</div>
+
+@code{
+    public List<string> Images { get; set; } = new List<string>();
+    protected override async Task OnInitializedAsync()
+    {
+        Images = await Http.GetFromJsonAsync<List<string>>("https://localhost:7029/Images");
+        Console.WriteLine(Images.Count);
+    }
+}
